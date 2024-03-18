@@ -27,7 +27,7 @@ TMDBMovies Sample implementation using Swift UI : MVVM
 
 ![](https://github.com/udayasri/TMDBMovies-SwiftUI/blob/main/iPhoneTMDB-Demo.gif)
 
-![](https://github.com/TMDBMovies-SwiftUI/blob/main/tvOSTMDB-Demo.gif](https://github.com/TMDBMovies-SwiftUI/blob/main/tvOSTMDB-Demo.gif)https://github.com/TMDBMovies-SwiftUI/blob/main/tvOSTMDB-Demo.gif)
+![](https://github.com/udayasri/TMDBMovies-SwiftUI/blob/main/tvOSTMDB-Demo.gif)
 
 
 ## License
