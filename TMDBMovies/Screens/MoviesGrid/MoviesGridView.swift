@@ -13,7 +13,7 @@ struct MoviesGridView: View {
     @EnvironmentObject var networkManager: NetworkManager
     
     // Toggle between the grid view item ( Just a poster ) & the list view item ( poster & title )
-    @State private var isGridStyle = true
+    @State private var isGridStyle = false
     
     var genre: Genre
     
