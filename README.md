@@ -9,6 +9,7 @@ TMDBMovies Sample implementation using Swift UI : MVVM
 - Show list of movies for a selected genre.
 - Supports iOS / tvOS 
 - Supports pagination
+- Supports light / dark themes
 - Error handling
 
 ## Requirements
@@ -23,6 +24,11 @@ TMDBMovies Sample implementation using Swift UI : MVVM
 - Add your `themoviedb.org` api key in TMDBConstants.
 
 ## Demo
+
+![](https://github.com/TMDBMovies-SwiftUI/iPhoneTMDB-Demo.gif)
+
+![](https://github.com/TMDBMovies-SwiftUI/tvOSTMDB-Demo.gif)
+
 
 ## License
 
