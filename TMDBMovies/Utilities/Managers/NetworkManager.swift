@@ -70,8 +70,8 @@ extension NetworkManager {
             return cachedGenres
         }
         
-        guard let url = URL(string: "\(baseUrl)genre/movie/list?api_key=\(apiKey)&language=\(apiLanguage)") else {
-            throw TMDBMError.invalidUrl(description: "Please check your url")
+        guard let apiKey = apiKey, let url = URL(string: "\(baseUrl)genre/movie/list?api_key=\(apiKey)&language=\(apiLanguage)") else {
+            throw TMDBMError.invalidUrl(description: "Please check your api key or url")
         }
         
         let genreResponse: GenreResponse = try await fetchData(from: url)
@@ -89,8 +89,8 @@ extension NetworkManager {
     /// - Returns: Array of `Movie` & `totalPages` or throws an Error
     func getMovies(genreId: Int, pageNumber: Int) async throws -> ([Movie], Int) {
         
-        guard let url = URL(string: "\(baseUrl)/discover/movie?with_genres=\(genreId)&api_key=\(apiKey)&language=\(apiLanguage)&page=\(pageNumber)") else {
-            throw TMDBMError.invalidUrl(description: "Please check your url")
+        guard let apiKey = apiKey,  let url = URL(string: "\(baseUrl)/discover/movie?with_genres=\(genreId)&api_key=\(apiKey)&language=\(apiLanguage)&page=\(pageNumber)") else {
+            throw TMDBMError.invalidUrl(description: "Please check your api key or url")
         }
         
         let moviesResponse: MoviesResponse = try await fetchData(from: url)

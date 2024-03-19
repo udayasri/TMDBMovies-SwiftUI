@@ -9,7 +9,7 @@ import Foundation
 
 let baseUrl = "https://api.themoviedb.org/3/"
 
-let apiKey = ""
+let apiKey: String? = nil
 
 let cacheDuration: TimeInterval = 24 * 60 * 60 // 24 hours
 
