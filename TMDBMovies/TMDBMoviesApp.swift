@@ -10,12 +10,9 @@ import SwiftUI
 @main
 struct TMDBMoviesApp: App {
     
-    @StateObject var networkManager = NetworkManager.shared
-    
     var body: some Scene {
         WindowGroup {
             GenresListView()
-                .environmentObject(networkManager)
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Hashable, Identifiable, Codable, Equatable {
+struct Movie: Identifiable, Codable, Equatable {
     let id: Int
     let originalTitle: String?
     let posterPath: String?
@@ -20,19 +20,9 @@ struct Movie: Hashable, Identifiable, Codable, Equatable {
     internal enum CodingKeys: String, CodingKey {
         case id
         case title
-        case originalTitle = "original_title"
-        case posterPath = "poster_path"
+        case originalTitle
+        case posterPath
     }
-    
-    internal func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encodeIfPresent(title, forKey: .title)
-        try container.encodeIfPresent(originalTitle, forKey: .originalTitle)
-        try container.encodeIfPresent(posterPath, forKey: .posterPath)
-    }
-    
-    
 }
 
 struct MoviesResponse: Codable {
@@ -40,22 +30,6 @@ struct MoviesResponse: Codable {
     let page: Int
     let totalPages: Int
     let totalResults: Int
-    
-    internal enum CodingKeys: String, CodingKey {
-        case results
-        case page
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
-    }
-    
-    internal func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(results, forKey: .results)
-        try container.encodeIfPresent(page, forKey: .page)
-        try container.encodeIfPresent(totalPages, forKey: .totalPages)
-        try container.encodeIfPresent(totalResults, forKey: .totalResults)
-    }
-    
 }
 
 struct MockedMovies {

@@ -7,22 +7,21 @@
 
 import SwiftUI
 
-@MainActor  final class GenresListViewModel: ObservableObject {
-    
+@MainActor  final class GenresListViewModel: ObservableObject, NetworkManagerProtocol {
+
     @Published var genres: [Genre] = []
     @Published var isLoading: Bool = false
     @Published var alertItem: TMDBAlertItem?
 
-
     /// Fetches Genres for movies
     /// - Parameter networkManager: NetworkManager
-    func loadGenres(with networkManager: NetworkManager) {
+    func loadGenres() {
         
         isLoading = true
         
         Task {
             do {
-                genres = try await networkManager.getGenres()
+                genres = try await getGenres()
             } catch {
                 self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError)
             }

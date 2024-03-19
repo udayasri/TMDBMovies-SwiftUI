@@ -23,7 +23,9 @@ struct MovieItemGridView: View {
             } placeholder: {
                 Image(systemName: "photo")
                     .resizable()
-                    .aspectRatio(1.0/1.5, contentMode: .fill)
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color(.placeholderText))
+                    .padding()
             }
             .frame( width: (UIScreen.main.bounds.width/numberOfColumns) - (numberOfColumns*gridItemSpacing) ,
                     height:  ((UIScreen.main.bounds.width/numberOfColumns)) * 1.5)

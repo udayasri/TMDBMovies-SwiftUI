@@ -8,12 +8,18 @@
 import Foundation
 import SwiftUI
 
-protocol NetworkManagerProtocol {
-    func getGenres() async throws -> [Genre]
-    func getMovies(genreId: Int, pageNumber: Int) async throws -> ([Movie], Int)
+protocol NetworkManagerProtocol { }
+
+extension NetworkManagerProtocol {
+    func getGenres() async throws -> [Genre] {
+        try await NetworkManager.shared.getGenres()
+    }
+    func getMovies(genreId: Int, pageNumber: Int) async throws -> ([Movie], Int) {
+        try await NetworkManager.shared.getMovies(genreId: genreId, pageNumber: pageNumber)
+    }
 }
 
-final class NetworkManager: ObservableObject, NetworkManagerProtocol {
+final class NetworkManager: NetworkManagerProtocol {
     
     // TODO: It hurts looking at this 💩 , but my personal opinion is it's ok to have it like this for now as this is a very simple project & over complicating things may not be the best.
     //
@@ -32,11 +38,12 @@ final class NetworkManager: ObservableObject, NetworkManagerProtocol {
     /// Fetches JSON data from the specified URL and decodes it into the provided codable type.
     /// - Parameter url: The URL from which to fetch the JSON data.
     /// - Returns: Object containing either the decoded data of the specified type on success or an error on failure.
-    private func fetchData<T: Decodable>(from url: URL) async throws -> T {
+    private func fetchData<T: Codable>(from url: URL) async throws -> T {
         do {
-            let (data, response ) = try await URLSession.shared.data(from: url)
+            let (data, _ ) = try await URLSession.shared.data(from: url)
             
             let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase   // ex : convert poster_Path to posterPath
             let decodedResponse = try decoder.decode(T.self, from: data)
             return decodedResponse
             
@@ -68,8 +75,7 @@ extension NetworkManager {
         }
         
         let genreResponse: GenreResponse = try await fetchData(from: url)
-        
-        // Cache the fetched genres ( TODO: Handle Errors )
+
         dataCacheManager.cacheData(genreResponse.genres, fileName: cacheFileNameForGenres)
         
         return genreResponse.genres
@@ -79,13 +85,16 @@ extension NetworkManager {
 // MARK: Movies
 extension NetworkManager {
     
-    /// Get `Movie`s  for a given `Genre`
+    /// Get `Movie`s  for a given `Genre` : https://developers.themoviedb.org/3/discover/movie-discover
     /// - Returns: Array of `Movie` & `totalPages` or throws an Error
     func getMovies(genreId: Int, pageNumber: Int) async throws -> ([Movie], Int) {
+        
         guard let url = URL(string: "\(baseUrl)/discover/movie?with_genres=\(genreId)&api_key=\(apiKey)&language=en&page=\(pageNumber)") else {
             throw TMDBMError.invalidUrl(description: "Please check your url")
         }
+        
         let moviesResponse: MoviesResponse = try await fetchData(from: url)
+        
         return (moviesResponse.results, moviesResponse.totalPages)
     }
 }

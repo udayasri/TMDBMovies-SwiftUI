@@ -10,9 +10,8 @@ import SwiftUI
 struct MoviesGridView: View {
     
     @StateObject var viewModel =  MoviesGridViewModel()
-    @EnvironmentObject var networkManager: NetworkManager
     
-    // Toggle between the grid view item ( Just a poster ) & the list view item ( poster & title )
+    // Toggle between the grid view item (Just a poster) & the list view item (poster & title)
     @State private var isGridStyle = false
     
     var genre: Genre
@@ -64,7 +63,7 @@ struct MoviesGridView: View {
                                     gridItemSpacing: gridItemSpacing)
                                 .task {
                                     if movie == viewModel.movies.last {
-                                        viewModel.loadMovies(with: networkManager, for: genre.id)
+                                        viewModel.loadMovies(for: genre.id)
                                     }
                                 }
                             } else {
@@ -72,7 +71,7 @@ struct MoviesGridView: View {
                                                   posterPath: viewModel.modifiedPosterPath(movie: movie))
                                 .task {
                                     if movie == viewModel.movies.last {
-                                        viewModel.loadMovies(with: networkManager, for: genre.id)
+                                        viewModel.loadMovies(for: genre.id)
                                     }
                                 }
                             }
@@ -89,7 +88,7 @@ struct MoviesGridView: View {
                                 gridItemSpacing: gridItemSpacing)
                             .task {
                                 if movie == viewModel.movies.last {
-                                    viewModel.loadMovies(with: networkManager, for: genre.id)
+                                    viewModel.loadMovies(for: genre.id)
                                 }
                             }
                         } else {
@@ -97,7 +96,7 @@ struct MoviesGridView: View {
                                               posterPath: viewModel.modifiedPosterPath(movie: movie))
                             .task {
                                 if movie == viewModel.movies.last {
-                                    viewModel.loadMovies(with: networkManager, for: genre.id)
+                                    viewModel.loadMovies(for: genre.id)
                                 }
                             }
                         }
@@ -106,15 +105,14 @@ struct MoviesGridView: View {
             }
             .padding()
             .task {
-                viewModel.loadMovies(with: networkManager, for: genre.id)
+                viewModel.loadMovies(for: genre.id)
             }
             .navigationTitle(" \(genre.name) - Movies 🍿")
-            .navigationBarItems(
-                trailing: Button(action: {
+            .toolbar{
+                Button("", systemImage: self.isGridStyle ? "list.dash" : "square.grid.2x2") {
                     self.isGridStyle.toggle()
-                }) {
-                        Image(systemName: self.isGridStyle ? "list.dash" : "square.grid.2x2")
-                })
+                }
+            }
             .alert(item: $viewModel.alertItem) { alertItem in
                 Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
             }
@@ -127,12 +125,10 @@ struct MoviesGridView: View {
                 }
             }
         }
-        
     }
 }
 
 
 #Preview {
     MoviesGridView(genre: MockedGenres.sampleGenre)
-        .environmentObject(NetworkManager.shared)
 }

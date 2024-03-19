@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-@MainActor final class MoviesGridViewModel: ObservableObject {
+@MainActor final class MoviesGridViewModel: ObservableObject, NetworkManagerProtocol {
     
     @Published var movies: [Movie] = []
     @Published var pageNumber: Int = 0
@@ -21,7 +21,7 @@ import SwiftUI
     /// - Parameters:
     ///   - networkManager: NetworkManager
     ///   - genreId:  genre id
-    func loadMovies(with networkManager: NetworkManager, for genreId:Int) {
+    func loadMovies(for genreId:Int) {
         isLoading = true
         
         pageNumber = pageNumber + 1
@@ -29,9 +29,10 @@ import SwiftUI
         if pageNumber <= totalNumberOfPages  {
             Task {
                 do {
-                    let (newMovies, totalNumberOfPages) = try await networkManager.getMovies(genreId: genreId, pageNumber: pageNumber)
+                    let (newMovies, totalNumberOfPages) = try await getMovies(genreId: genreId, pageNumber: pageNumber)
                     self.totalNumberOfPages = totalNumberOfPages
-                    movies.append(contentsOf: newMovies)
+                    // movies.append(contentsOf: newMovies)
+                    movies.append(contentsOf: newMovies.filter{ !movies.contains($0) })
                 } catch {
                     self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError )
                 }

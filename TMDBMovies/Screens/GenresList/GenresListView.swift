@@ -10,7 +10,6 @@ import SwiftUI
 struct GenresListView: View {
 
     @StateObject var viewModel =  GenresListViewModel()
-    @EnvironmentObject var networkManager: NetworkManager
     @State private var showErrorAlert = false
     @State private var isGridStyle = false
     
@@ -42,7 +41,7 @@ struct GenresListView: View {
                 }
             }
             .task {
-                viewModel.loadGenres(with: networkManager)
+                viewModel.loadGenres()
             }
             .alert(item: $viewModel.alertItem){ alertItem in
                 Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
@@ -55,5 +54,4 @@ struct GenresListView: View {
 
 #Preview {
     GenresListView()
-        .environmentObject(NetworkManager.shared)
 }

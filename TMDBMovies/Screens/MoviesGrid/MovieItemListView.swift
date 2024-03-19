@@ -33,20 +33,21 @@ struct MovieItemListView: View {
             } placeholder: {
                 Image(systemName: "photo")
                    .resizable()
-                   .aspectRatio(1.0/1.5, contentMode: .fill)
+                   .aspectRatio(contentMode: .fit)
+                   .foregroundColor(Color(.placeholderText))
+                   .padding()
             }
             .frame(width: frameSize.0, height: frameSize.1)
             .cornerRadius(10)
             
             Text(movie.title ?? "")
-                .font(.caption)
+                .font(.body)
                 .fontWeight(.medium)
                 .lineLimit(3)
                 .minimumScaleFactor(0.8)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(Color(.label))
                 
-            
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
