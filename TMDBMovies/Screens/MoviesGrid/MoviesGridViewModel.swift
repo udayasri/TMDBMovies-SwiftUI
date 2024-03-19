@@ -31,7 +31,6 @@ import SwiftUI
                 do {
                     let (newMovies, totalNumberOfPages) = try await networkManager.getMovies(genreId: genreId, pageNumber: pageNumber)
                     self.totalNumberOfPages = totalNumberOfPages
-                    // movies.append(contentsOf: newMovies.filter{ !movies.contains($0) })
                     movies.append(contentsOf: newMovies)
                 } catch {
                     self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError )
