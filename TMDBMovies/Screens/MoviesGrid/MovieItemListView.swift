@@ -26,8 +26,6 @@ struct MovieItemListView: View {
         HStack(spacing: 0){
             
             // TODO: As `AsyncImage`is not cacheable, either create a custom downloadable cacheable image or use a workaround
-            /// Good solution : https://www.youtube.com/watch?v=KhGyiOk3Yzk
-            ///
             AsyncImage(url: URL(string: posterPath)) { image in
                 image
                    .resizable()

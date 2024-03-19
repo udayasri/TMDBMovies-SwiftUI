@@ -62,9 +62,19 @@ struct MoviesGridView: View {
                                     posterPath:viewModel.modifiedPosterPath(movie: movie),
                                     numberOfColumns: CGFloat(numberOfColumns.count),
                                     gridItemSpacing: gridItemSpacing)
+                                .task {
+                                    if movie == viewModel.movies.last {
+                                        viewModel.loadMovies(with: networkManager, for: genre.id)
+                                    }
+                                }
                             } else {
                                 MovieItemListView(movie: movie, 
                                                   posterPath: viewModel.modifiedPosterPath(movie: movie))
+                                .task {
+                                    if movie == viewModel.movies.last {
+                                        viewModel.loadMovies(with: networkManager, for: genre.id)
+                                    }
+                                }
                             }
                         }
                         .background(Color.clear)
@@ -77,22 +87,27 @@ struct MoviesGridView: View {
                                 posterPath:viewModel.modifiedPosterPath(movie: movie),
                                 numberOfColumns: CGFloat(numberOfColumns.count),
                                 gridItemSpacing: gridItemSpacing)
+                            .task {
+                                if movie == viewModel.movies.last {
+                                    viewModel.loadMovies(with: networkManager, for: genre.id)
+                                }
+                            }
                         } else {
                             MovieItemListView(movie: movie, 
                                               posterPath: viewModel.modifiedPosterPath(movie: movie))
+                            .task {
+                                if movie == viewModel.movies.last {
+                                    viewModel.loadMovies(with: networkManager, for: genre.id)
+                                }
+                            }
                         }
                     #endif
                 }
-                
-                VStack(alignment:.trailing) {
-                    Text(" ")
-                        .onAppear {
-                            viewModel.loadMoreData(with: networkManager, for: genre.id)
-                        }
-                }
-                .frame(width: 100, height: 50)
             }
             .padding()
+            .task {
+                viewModel.loadMovies(with: networkManager, for: genre.id)
+            }
             .navigationTitle(" \(genre.name) - Movies 🍿")
             .navigationBarItems(
                 trailing: Button(action: {

@@ -16,7 +16,7 @@ import SwiftUI
 
     /// Fetches Genres for movies
     /// - Parameter networkManager: NetworkManager
-    func getGenres(with networkManager: NetworkManager) {
+    func loadGenres(with networkManager: NetworkManager) {
         
         isLoading = true
         

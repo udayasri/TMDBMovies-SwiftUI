@@ -42,7 +42,7 @@ struct GenresListView: View {
                 }
             }
             .task {
-                viewModel.getGenres(with: networkManager)
+                viewModel.loadGenres(with: networkManager)
             }
             .alert(item: $viewModel.alertItem){ alertItem in
                 Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)

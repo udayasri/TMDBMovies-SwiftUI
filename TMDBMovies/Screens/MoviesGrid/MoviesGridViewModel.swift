@@ -17,39 +17,28 @@ import SwiftUI
     
     var totalNumberOfPages = 1
     
-    /// Fetches extra movies for a given  genre id
+    /// Fetches movies for a given  genre id
     /// - Parameters:
     ///   - networkManager: NetworkManager
     ///   - genreId:  genre id
-    func loadMoreData(with networkManager: NetworkManager, for genreId:Int) {
+    func loadMovies(with networkManager: NetworkManager, for genreId:Int) {
         isLoading = true
         
         pageNumber = pageNumber + 1
         
         if pageNumber <= totalNumberOfPages  {
-            getMovies(with: networkManager, for: genreId, pageNumber: pageNumber)
-        } else {
-            isLoading = false
-        }
-    }
-    
-    
-    /// Fetches Movies for a given genre Id , page number
-    /// - Parameters:
-    ///   - networkManager: NetworkManager
-    ///   - genreId: genre Id
-    ///   - pageNumber: page number
-    private func getMovies(with networkManager: NetworkManager, for genreId: Int, pageNumber: Int) {
-        isLoading = true
-        Task {
-            do {
-                let (newMovies, totalNumberOfPages) = try await networkManager.getMovies(genreId: genreId, pageNumber: pageNumber)
-                self.totalNumberOfPages = totalNumberOfPages
-                movies.append(contentsOf: newMovies.filter{ !movies.contains($0) })
-            } catch {
-                self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError )
+            Task {
+                do {
+                    let (newMovies, totalNumberOfPages) = try await networkManager.getMovies(genreId: genreId, pageNumber: pageNumber)
+                    self.totalNumberOfPages = totalNumberOfPages
+                    movies.append(contentsOf: newMovies.filter{ !movies.contains($0) })
+                } catch {
+                    self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError )
+                }
+                
+                isLoading = false
             }
-            
+        } else {
             isLoading = false
         }
     }
