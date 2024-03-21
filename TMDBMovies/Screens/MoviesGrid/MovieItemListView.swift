@@ -35,18 +35,19 @@ struct MovieItemListView: View {
                    .resizable()
                    .aspectRatio(contentMode: .fit)
                    .foregroundColor(Color(.placeholderText))
-                   .padding()
             }
+            .padding(0)
+            #if os(tvOS)
             .frame(width: frameSize.0, height: frameSize.1)
+            #endif
             .cornerRadius(10)
             
-            Text(movie.title ?? "")
-                .font(.body)
-                .fontWeight(.medium)
-                .lineLimit(3)
-                .minimumScaleFactor(0.8)
-                .multilineTextAlignment(.leading)
-                .foregroundColor(Color(.label))
+            TMDBTitle(configuration: .init(font: .caption)) {
+                Text(movie.title ?? "")
+            }
+            
+            // Text(movie.title ?? "")
+            //     .modifier(TMDBTitleModifier(font: .footnote))
                 
         }
         .frame(maxWidth: .infinity, alignment: .leading)
