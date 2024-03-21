@@ -11,11 +11,15 @@ import SwiftUI
 protocol NetworkManagerProtocol { }
 
 extension NetworkManagerProtocol {
+    
     func getGenres() async throws -> [Genre] {
-        try await NetworkManager.shared.getGenres()
+        let networkManager = NetworkManager()
+        return try await networkManager.getGenres()
     }
+    
     func getMovies(genreId: Int, pageNumber: Int) async throws -> ([Movie], Int) {
-        try await NetworkManager.shared.getMovies(genreId: genreId, pageNumber: pageNumber)
+        let networkManager = NetworkManager()
+        return try await networkManager.getMovies(genreId: genreId, pageNumber: pageNumber)
     }
 }
 
@@ -27,6 +31,7 @@ final class NetworkManager: NetworkManagerProtocol {
     // https://github.com/jasonjrr/MVVM.Demo.SwiftUI/tree/master
     // Good article - https://www.linkedin.com/pulse/mvvm-swiftui-classic-dependency-injection-vs-objects-jiri-banas/
     //
+    @available(*, deprecated, message: "Static property 'shared' is not concurrency-safe")
     static let shared = NetworkManager()
     
     let dataCacheManager: DataCacheManagerProtocol

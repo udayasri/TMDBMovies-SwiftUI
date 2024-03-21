@@ -12,13 +12,9 @@ struct GenresListCellView: View {
     var genre : Genre
     
     var body: some View {
-        Text(genre.name)
-            .font(.title2)
-            .fontWeight(.medium)
-            .foregroundColor(Color(.label))
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            
+        TMDBTitle(configuration: .init(font: .title2, fontWeight: .medium)) {
+            Text(genre.name)
+        }
     }
 }
 
