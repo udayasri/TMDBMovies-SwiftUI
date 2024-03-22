@@ -13,8 +13,8 @@ struct MoviesGridView: View {
     
     // Toggle between the grid view item (Just a poster) & the list view item (poster & title)
     @State private var isGridStyle = false
-    
-    var genre: Genre
+
+    let genre: Genre
     
     init(genre: Genre) {
         self.genre = genre
@@ -53,37 +53,14 @@ struct MoviesGridView: View {
         ScrollView {
             LazyVGrid(columns: numberOfColumns, spacing: 50) {
                 ForEach(viewModel.movies) { movie in
-                    #if os(tvOS)
-                        Button(action: { }) {
-                            if isGridStyle {
-                                MovieItemGridView(
-                                    movie: movie,
-                                    posterPath:viewModel.modifiedPosterPath(movie: movie),
-                                    numberOfColumns: CGFloat(numberOfColumns.count),
-                                    gridItemSpacing: gridItemSpacing)
-                                .task {
-                                    if movie == viewModel.movies.last {
-                                        viewModel.loadMovies(for: genre.id)
-                                    }
-                                }
-                            } else {
-                                MovieItemListView(movie: movie, 
-                                                  posterPath: viewModel.modifiedPosterPath(movie: movie))
-                                .task {
-                                    if movie == viewModel.movies.last {
-                                        viewModel.loadMovies(for: genre.id)
-                                    }
-                                }
-                            }
-                        }
-                        .background(Color.clear)
-                        .foregroundColor(Color.clear)
-                        .buttonStyle(CardButtonStyle())
-                    #else
+                    Button(action: {
+                        viewModel.isDetailsViewPresented.toggle()
+                        viewModel.selectedMovie = movie
+                    }) {
                         if isGridStyle {
                             MovieItemGridView(
                                 movie: movie,
-                                posterPath:viewModel.modifiedPosterPath(movie: movie),
+                                posterPath: movie.modifiedPosterPath(),
                                 numberOfColumns: CGFloat(numberOfColumns.count),
                                 gridItemSpacing: gridItemSpacing)
                             .task {
@@ -92,30 +69,48 @@ struct MoviesGridView: View {
                                 }
                             }
                         } else {
-                            MovieItemListView(movie: movie, 
-                                              posterPath: viewModel.modifiedPosterPath(movie: movie))
+                            MovieItemListView(movie: movie,
+                                              posterPath: movie.modifiedPosterPath())
                             .task {
                                 if movie == viewModel.movies.last {
                                     viewModel.loadMovies(for: genre.id)
                                 }
                             }
                         }
+                    }
+                    .background(Color.clear)
+                    .foregroundColor(Color.clear)
+                    #if(tvOS)
+                        .buttonStyle(CardButtonStyle())
+                    #else
+                        .buttonStyle(PlainButtonStyle())
                     #endif
                 }
             }
             .padding()
+            .sheet(isPresented: $viewModel.isDetailsViewPresented,
+                   content: {
+                        MovieDetailsView(
+                                isDetailsViewPresented: $viewModel.isDetailsViewPresented,
+                                movie: viewModel.selectedMovie,
+                                modifiedPosterPath: viewModel.selectedMovie?.modifiedPosterPath())
+            })
             .task {
                 viewModel.loadMovies(for: genre.id)
             }
             .navigationTitle(" \(genre.name) - Movies 🍿")
-            .toolbar{
+            .toolbar {
                 Button("", systemImage: self.isGridStyle ? "list.dash" : "square.grid.2x2") {
                     self.isGridStyle.toggle()
                 }
             }
-            .alert(item: $viewModel.alertItem) { alertItem in
-                Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
-            }
+            .alert(viewModel.alertItem?.titleString ?? "Error",
+                   isPresented: $viewModel.shouldPresentErrorAlert,
+                   presenting: viewModel.alertItem) { alertItem in
+                        alertItem.actionButton
+                    } message: { alertItem in
+                        alertItem.message
+                    }
             
             VStack() {
                 if viewModel.isLoading {

@@ -14,6 +14,10 @@ import SwiftUI
     @Published var pageNumber: Int = 0
     @Published var isLoading: Bool = false
     @Published var alertItem: TMDBAlertItem?
+    @Published var shouldPresentErrorAlert: Bool = false
+    
+    @Published var isDetailsViewPresented = false
+    @Published var selectedMovie: Movie?
     
     var totalNumberOfPages = 1
     
@@ -33,7 +37,9 @@ import SwiftUI
                     self.totalNumberOfPages = totalNumberOfPages
                     // movies.append(contentsOf: newMovies)
                     movies.append(contentsOf: newMovies.filter{ !movies.contains($0) })
+                    shouldPresentErrorAlert = false
                 } catch {
+                    shouldPresentErrorAlert = true
                     self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError )
                 }
                 
@@ -43,12 +49,5 @@ import SwiftUI
             isLoading = false
         }
     }
-    
-    /// Modify the path for fetching image urls
-    /// - Parameter movie: `Movie`
-    /// - Returns: Movie poster image url
-    func modifiedPosterPath(movie: Movie) -> String {
-        guard let posterPath = movie.posterPath else { return "" }
-        return "\(imageBaseUrl)\(moviePosterImageWidth)\(posterPath)"
-    }
+
 }

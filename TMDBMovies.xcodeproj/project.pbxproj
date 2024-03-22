@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		68AB4F3A2BACBBE90062B77A /* TMDBTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AB4F392BACBBE90062B77A /* TMDBTitleModifier.swift */; };
 		68AB4F3C2BACC2CE0062B77A /* TMDBTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AB4F3B2BACC2CE0062B77A /* TMDBTitle.swift */; };
+		68AB4F412BAD87AF0062B77A /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AB4F402BAD87AF0062B77A /* MovieDetailsView.swift */; };
 		68E99A622BA8CB710075B627 /* MovieItemGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E99A612BA8CB710075B627 /* MovieItemGridView.swift */; };
 		68E99A642BA8CB820075B627 /* MovieItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E99A632BA8CB820075B627 /* MovieItemListView.swift */; };
 		68EEACB72BA639ED00B4926B /* TMDBMoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EEACB62BA639ED00B4926B /* TMDBMoviesApp.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		68AB4F392BACBBE90062B77A /* TMDBTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBTitleModifier.swift; sourceTree = "<group>"; };
 		68AB4F3B2BACC2CE0062B77A /* TMDBTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBTitle.swift; sourceTree = "<group>"; };
+		68AB4F402BAD87AF0062B77A /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
 		68E99A612BA8CB710075B627 /* MovieItemGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemGridView.swift; sourceTree = "<group>"; };
 		68E99A632BA8CB820075B627 /* MovieItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemListView.swift; sourceTree = "<group>"; };
 		68EEACB32BA639ED00B4926B /* TMDBMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,14 @@
 			path = "View Modifiers";
 			sourceTree = "<group>";
 		};
+		68AB4F3F2BAD878A0062B77A /* MovieDetails */ = {
+			isa = PBXGroup;
+			children = (
+				68AB4F402BAD87AF0062B77A /* MovieDetailsView.swift */,
+			);
+			path = MovieDetails;
+			sourceTree = "<group>";
+		};
 		68EEACAA2BA639ED00B4926B = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +154,7 @@
 			children = (
 				68EEACD02BA649CB00B4926B /* GenresList */,
 				68EEACD12BA649D400B4926B /* MoviesGrid */,
+				68AB4F3F2BAD878A0062B77A /* MovieDetails */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -318,6 +329,7 @@
 				68EEACCD2BA63BFD00B4926B /* Genres.swift in Sources */,
 				68EEACE22BA66AD800B4926B /* MoviesGridViewModel.swift in Sources */,
 				68EEACCA2BA63BDF00B4926B /* GenresListCellView.swift in Sources */,
+				68AB4F412BAD87AF0062B77A /* MovieDetailsView.swift in Sources */,
 				68E99A622BA8CB710075B627 /* MovieItemGridView.swift in Sources */,
 				68E99A642BA8CB820075B627 /* MovieItemListView.swift in Sources */,
 				68EEACB72BA639ED00B4926B /* TMDBMoviesApp.swift in Sources */,
