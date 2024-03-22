@@ -43,9 +43,13 @@ struct GenresListView: View {
             .task {
                 viewModel.loadGenres()
             }
-            .alert(item: $viewModel.alertItem){ alertItem in
-                Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
-            }
+            .alert(viewModel.alertItem?.titleString ?? "Error",
+                   isPresented: $viewModel.shouldPresentErrorAlert,
+                   presenting: viewModel.alertItem) { alertItem in
+                        alertItem.actionButton
+                    } message: { alertItem in
+                        alertItem.message
+                    }
             .navigationTitle("Genres 🎞️")
         }
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Identifiable, Codable, Equatable {
+struct Movie: Hashable, Identifiable, Codable, Equatable {
     let id: Int
     let originalTitle: String?
     let posterPath: String?
@@ -22,6 +22,18 @@ struct Movie: Identifiable, Codable, Equatable {
         case title
         case originalTitle
         case posterPath
+    }
+}
+
+// MARK: Modified poster path
+extension Movie {
+    
+    /// Modify the path for fetching image urls
+    /// - Parameter movie: `Movie`
+    /// - Returns: Movie poster image url
+    func modifiedPosterPath() -> String {
+        guard let posterPath = self.posterPath else { return "" }
+        return "\(imageBaseUrl)\(moviePosterImageWidth)\(posterPath)"
     }
 }
 

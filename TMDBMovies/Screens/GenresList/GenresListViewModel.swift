@@ -12,6 +12,7 @@ import SwiftUI
     @Published var genres: [Genre] = []
     @Published var isLoading: Bool = false
     @Published var alertItem: TMDBAlertItem?
+    @Published var shouldPresentErrorAlert: Bool = false
 
     /// Fetches Genres for movies
     /// - Parameter networkManager: NetworkManager
@@ -22,7 +23,9 @@ import SwiftUI
         Task {
             do {
                 genres = try await getGenres()
+                shouldPresentErrorAlert = false
             } catch {
+                shouldPresentErrorAlert = true
                 self.alertItem = TMDBAlertContext.errorAlert(error: error as? TMDBMError)
             }
             
